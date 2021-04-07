@@ -25,6 +25,9 @@ protected:
 	void TurnAtRate(float Rate);
 	void LookUpAtRate(float Rate);
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ACharacter> MinionToSpawn;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
