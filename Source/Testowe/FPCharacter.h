@@ -11,6 +11,9 @@ class TESTOWE_API AFPCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+	const int MAX_MINIONS = 5;
+	int MinionsSpawned = 0;
+
 public:
 	// Sets default values for this character's properties
 	AFPCharacter();
@@ -29,7 +32,7 @@ protected:
 	TSubclassOf<ACharacter> MinionToSpawn;
 
 	UPROPERTY(EditDefaultsOnly)
-	float MinionSpawningDistance = 3.0f;
+	float MinionSpawningDistance = 300.0f;
 
 public:	
 	// Called every frame
