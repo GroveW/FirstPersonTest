@@ -28,6 +28,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ACharacter> MinionToSpawn;
 
+	UPROPERTY(EditDefaultsOnly)
+	float MinionSpawningDistance = 3.0f;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

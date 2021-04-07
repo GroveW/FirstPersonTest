@@ -38,7 +38,7 @@ void AFPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	// Bind fire event
-	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPCharacter::OnFire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPCharacter::OnFire);
 
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFPCharacter::MoveForward);
@@ -51,6 +51,13 @@ void AFPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis("TurnRate", this, &AFPCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AFPCharacter::LookUpAtRate);
+}
+
+void AFPCharacter::OnFire()
+{
+	FVector SpawnPosition = GetActorLocation() + GetActorForwardVector() * MinionSpawningDistance;
+	FRotator MinionRotation = FRotator(0.0f, 0.0f, 0.0f);
+	GetWorld()->SpawnActor(MinionToSpawn, &SpawnPosition, &MinionRotation);
 }
 
 void AFPCharacter::MoveForward(float Value)
