@@ -3,6 +3,8 @@
 
 #include "FPCharacter.h"
 
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values
 AFPCharacter::AFPCharacter()
 {
@@ -16,6 +18,15 @@ void AFPCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	TArray<AActor*> ContainerActors;
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AContainer::StaticClass(), ContainerActors);
+
+	for (auto containerActor : ContainerActors)
+	{
+		auto container = Cast<AContainer>(containerActor);
+		Containers.Add(new ContainerRepresentation(container->GetNeededObjectType(), containerActor->GetActorLocation()));
+	}
 }
 
 // Called every frame
@@ -59,7 +70,8 @@ void AFPCharacter::OnFire()
 	{
 		FVector SpawnPosition = GetActorLocation() + GetActorForwardVector() * MinionSpawningDistance;
 		FRotator MinionRotation = FRotator(0.0f, 0.0f, 0.0f);
-		GetWorld()->SpawnActor(MinionToSpawn, &SpawnPosition, &MinionRotation);
+		AActor* p = GetWorld()->SpawnActor(MinionToSpawn, &SpawnPosition, &MinionRotation);
+		Cast<APawn>(p)->SpawnDefaultController();
 
 		MinionsSpawned++;
 	}
@@ -93,4 +105,22 @@ void AFPCharacter::LookUpAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * GetWorld()->GetDeltaSeconds());
+}
+
+FVector AFPCharacter::FindClosestContainerOfType(NeededObjectType ContainerType, FVector ActorPosition)
+{
+	float smallestDistance = 100000.0f;
+	FVector targetPosition;
+
+	for (auto container : Containers)
+	{
+		float newDistance = FVector::Dist(container->Position, ActorPosition);
+		if (container->Type == ContainerType && newDistance < smallestDistance)
+		{
+			targetPosition = container->Position;
+			smallestDistance = newDistance;
+		}
+	}
+
+	return targetPosition;
 }

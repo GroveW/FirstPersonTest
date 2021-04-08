@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Container.h"
+
 #include "FPCharacter.generated.h"
 
 UCLASS()
@@ -18,6 +20,9 @@ public:
 	// Sets default values for this character's properties
 	AFPCharacter();
 
+	UFUNCTION(BlueprintCallable)
+	FVector FindClosestContainerOfType(NeededObjectType ContainerType, FVector ActorPosition);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -29,10 +34,24 @@ protected:
 	void LookUpAtRate(float Rate);
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ACharacter> MinionToSpawn;
+	TSubclassOf<APawn> MinionToSpawn;
 
 	UPROPERTY(EditDefaultsOnly)
 	float MinionSpawningDistance = 300.0f;
+
+	struct ContainerRepresentation
+	{
+		NeededObjectType Type;
+		FVector Position;
+	
+		ContainerRepresentation(NeededObjectType Type, FVector Pos)
+		{
+			this->Type = Type;
+			this->Position = Pos;
+		}
+	};
+
+	TArray<ContainerRepresentation*> Containers;
 
 public:	
 	// Called every frame

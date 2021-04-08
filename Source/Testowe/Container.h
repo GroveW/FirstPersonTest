@@ -23,6 +23,8 @@ public:
 	// Sets default values for this actor's properties
 	AContainer();
 
+	NeededObjectType GetNeededObjectType();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

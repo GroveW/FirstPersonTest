@@ -38,3 +38,7 @@ void AContainer::Tick(float DeltaTime)
 
 }
 
+NeededObjectType AContainer::GetNeededObjectType()
+{
+	return NeededObject;
+}
