@@ -33,6 +33,9 @@ protected:
 	void TurnAtRate(float Rate);
 	void LookUpAtRate(float Rate);
 
+	UFUNCTION(BlueprintCallable)
+	void BlockInput(bool Block);
+
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<APawn> MinionToSpawn;
 

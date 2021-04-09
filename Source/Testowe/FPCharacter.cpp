@@ -107,6 +107,14 @@ void AFPCharacter::LookUpAtRate(float Rate)
 	AddControllerPitchInput(Rate * GetWorld()->GetDeltaSeconds());
 }
 
+void AFPCharacter::BlockInput(bool Block)
+{
+	if (Block)
+		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->DisableInput(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	else
+		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->EnableInput(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+}
+
 FVector AFPCharacter::FindClosestContainerOfType(NeededObjectType ContainerType, FVector ActorPosition)
 {
 	float smallestDistance = 100000.0f;
